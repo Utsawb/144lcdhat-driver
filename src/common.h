@@ -1,19 +1,37 @@
 #pragma once
 
+#include <stdint.h>
+
 #define LCD_HEIGHT 128
 #define LCD_WIDTH 128
 
-#define WHITE 0xFFFF
-#define BLACK 0x0000
-#define BLUE 0x001F
-#define BRED 0XF81F
-#define GRED 0XFFE0
-#define GBLUE 0X07FF
-#define RED 0xF800
-#define MAGENTA 0xF81F
-#define GREEN 0x07E0
-#define CYAN 0x7FFF
-#define YELLOW 0xFFE0
-#define BROWN 0XBC40
-#define BRRED 0XFC07
-#define GRAY 0X8430
+#define Rosewater 63194
+#define Flamingo 63032
+#define Pink 62972
+#define Mauve 50462
+#define Red 60466
+#define Maroon 60628
+#define Peach 62799
+#define Yellow 61107
+#define Green 42706
+#define Teal 36537
+#define Sky 38588
+#define Sapphire 32316
+#define Blue 36222
+#define Lavender 46591
+#define Text 52894
+#define Subtext1 48668
+#define Subtext0 42361
+#define Overlay2 38102
+#define Overlay1 33844
+#define Overlay0 27537
+#define Surface2 23311
+#define Surface1 19052
+#define Surface0 12745
+#define Base 8487
+#define Mantle 6406
+#define Crust 6340
+
+#define COLOR_SIZE 14
+const uint16_t colors[] = {Rosewater, Flamingo, Pink, Mauve, Red,      Maroon, Peach,
+                           Yellow,    Green,    Teal, Sky,   Sapphire, Blue,   Lavender};

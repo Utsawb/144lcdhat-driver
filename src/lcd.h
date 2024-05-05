@@ -153,7 +153,7 @@ static inline void lcd_set_gram_scan_way(LCD_SCAN_DIR scan_dir)
 
     // please set (MemoryAccessReg_Data & 0x10) != 1
     // come back to this later?? what does this mean??
-    if ((MemoryAccessReg_Data && 0x20) != 1)
+    if ((MemoryAccessReg_Data & 0x20) != 1)
     {
         sLCD_DIS.LCD_X_Adjust = LCD_X;
         sLCD_DIS.LCD_Y_Adjust = LCD_Y;
