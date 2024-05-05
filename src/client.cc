@@ -20,18 +20,14 @@ int main(void)
     while (1)
     {
         rpi_to_pc >> flag;
-        image_clear(image, Mantle);
+        image_clear(image, Overlay0);
         for (uint16_t i = 0; i < FRAME_WIDTH; ++i)
         {
             for (uint16_t j = 0; j < FRAME_HEIGHT; ++j)
             {
                 image[(i + x_offset) + (j + y_offset) * LCD_WIDTH] =
-                    (frames[frame_number][(i + j * FRAME_HEIGHT) / 8] >> ((i + j * FRAME_HEIGHT) % 8)) & 0b1 ? Mauve
-                                                                                                             : Mantle;
-                if (j > 126)
-                {
-                    image[i + j * LCD_WIDTH] = Lavender;
-                }
+                    (frames[frame_number][(i + j * FRAME_HEIGHT) / 8] >> ((i + j * FRAME_HEIGHT) % 8)) & 0b1 ? COLOR_FIX(colors[frame_number % COLOR_SIZE])
+                                                                                                             : COLOR_FIX(Overlay0);
             }
         }
         pc_to_rpi.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
