@@ -5,7 +5,7 @@
 #define FRAME_WIDTH 64
 #define FRAME_HEIGHT 64
 
-#define FRAME_COUNT (sizeof(frames) / sizeof(uint8_t *))
+#define FRAME_COUNT (sizeof(frames) / 512)
 
 // for (uint16_t i = 0; i < FRAME_WIDTH; ++i)
 // {

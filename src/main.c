@@ -32,7 +32,7 @@ int main(void)
     const uint16_t x_offset = 0;
     const uint16_t y_offset = 0;
     uint8_t frame_number = 0;
-    printf("The frame count function says: %d\n", FRAME_COUNT);
+    printf("The frame count function says: %lu\n", FRAME_COUNT);
     while (1)
     {
         image_clear(image, BLACK);
@@ -47,7 +47,7 @@ int main(void)
             }
         }
 
-        frame_number = (frame_number + 1) % 28
+        frame_number = (frame_number + 1) % FRAME_COUNT;
         lcd_display(image);
         delay(10);
     }
