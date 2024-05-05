@@ -20,7 +20,7 @@ int main(void)
     while (1)
     {
         rpi_to_pc >> flag;
-        image_clear(image, 0);
+        image_clear(image, Lavender);
         for (uint16_t i = 0; i < FRAME_WIDTH; ++i)
         {
             for (uint16_t j = 0; j < FRAME_HEIGHT; ++j)

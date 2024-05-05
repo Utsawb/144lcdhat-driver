@@ -1,9 +1,10 @@
 #include "cc-socket-wrappers/udp.hh"
+#include "common.h"
 #include "lcd.h"
 
 #include <signal.h>
 
-uint16_t image[LCD_WIDTH * LCD_HEIGHT] = {BLACK};
+uint16_t image[LCD_WIDTH * LCD_HEIGHT] = {Lavender};
 jj::UDP pc_to_rpi("0.0.0.0", "5000", jj::UDP::Side::SERVER);
 jj::UDP rpi_to_pc("192.168.1.3", "6000", jj::UDP::CLIENT);
 

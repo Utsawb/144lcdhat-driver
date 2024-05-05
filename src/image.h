@@ -5,8 +5,9 @@
 
 #include "common.h"
 
-static inline void image_clear(uint16_t *image, const uint16_t color)
+static inline void image_clear(uint16_t *image, uint16_t color)
 {
+    color = ((color << 8) & 0xff00) | (color >> 8);
     for (uint16_t p = 0; p < LCD_WIDTH * LCD_HEIGHT; ++p)
     {
         image[p] = color;
