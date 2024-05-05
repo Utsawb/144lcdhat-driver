@@ -1,14 +1,14 @@
-#include "cc-socket-wrappers/tcp.hh"
+#include "cc-socket-wrappers/udp.hh"
 #include "lcd.h"
 
 #include <signal.h>
 
 uint16_t image[LCD_WIDTH * LCD_HEIGHT] = {BLACK};
-jj::TCP* server;
+jj::UDP pc_to_rpi("0.0.0.0", "5000", jj::UDP::Side::SERVER);
+jj::UDP rpi_to_pc("192.168.1.3", "6000", jj::UDP::CLIENT);
 
 void exit_handler(int errorno)
 {
-    delete server;
     digital_write(LCD_BL, 0);
     lcd_deinit();
     gpio_deinit();
@@ -18,18 +18,16 @@ void exit_handler(int errorno)
 int main(void)
 {
     signal(SIGINT, exit_handler);
-    server = new jj::TCP("0.0.0.0", "5000", jj::TCP::Side::SERVER);
 
     gpio_init();
     lcd_init();
 
     lcd_clear(BLACK);
-    auto accepted = server->accept_connection(1);
-
     while (1)
     {
-        accepted.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
+        pc_to_rpi.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
         lcd_display(image);
+        rpi_to_pc << true;
     }
 
     lcd_deinit();
