@@ -1,0 +1,3 @@
+[submodule "src/cc-socket-wrappers"]
+	path = src/cc-socket-wrappers
+	url = https://github.com/Utsawb/cc-socket-wrappers.git

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "lcd.h"
 #include <stdint.h>
+#include <stdlib.h>
+
+#include "common.h"
 
 static inline void image_clear(uint16_t *image, const uint16_t color)
 {

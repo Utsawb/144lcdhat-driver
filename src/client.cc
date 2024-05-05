@@ -1,38 +1,17 @@
 #include "animation.h"
+#include "cc-socket-wrappers/udp.hh"
 #include "image.h"
-#include "lcd.h"
-
-#include <signal.h>
-#include <stdlib.h>
-
-const uint16_t colors[] = {WHITE,   BLACK, BLUE, BRED,   GRED,  GBLUE, RED,
-                           MAGENTA, GREEN, CYAN, YELLOW, BROWN, BRRED, GRAY};
 
 uint16_t image[LCD_WIDTH * LCD_HEIGHT] = {BLACK};
 
-uint32_t val = 0;
-
-void exit_handler(int errorno)
-{
-    digital_write(LCD_BL, 0);
-    lcd_deinit();
-    gpio_deinit();
-    exit(0);
-}
-
 int main(void)
 {
-    signal(SIGINT, exit_handler);
-
-    gpio_init();
-    lcd_init();
-
-    lcd_clear(BLACK);
+    jj::UDP client("192.168.1.7", "5000", jj::UDP::CLIENT);
 
     const uint16_t x_offset = 0;
     const uint16_t y_offset = 0;
     uint8_t frame_number = 0;
-    printf("The frame count function says: %lu\n", FRAME_COUNT);
+
     while (1)
     {
         image_clear(image, BLACK);
@@ -48,11 +27,6 @@ int main(void)
         }
 
         frame_number = (frame_number + 1) % FRAME_COUNT;
-        lcd_display(image);
-        delay(10);
+        client.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
     }
-
-    lcd_deinit();
-    gpio_deinit();
-    return 0;
 }

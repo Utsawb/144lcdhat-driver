@@ -45,7 +45,6 @@
 #define BRRED 0XFC07
 #define GRAY 0X8430
 
-
 typedef enum
 {
     L2R_U2D = 0, // The display interface is displayed , left to right, up to down
@@ -62,11 +61,11 @@ typedef enum
 
 typedef struct
 {
-    uint16_t LCD_Dis_Column; // COLUMN
-    uint16_t LCD_Dis_Page;   // PAGE
-    LCD_SCAN_DIR LCD_Scan_Dir;
-    uint16_t LCD_X_Adjust; // LCD x actual display position calibration
-    uint16_t LCD_Y_Adjust; // LCD y actual display position calibration
+        uint16_t LCD_Dis_Column; // COLUMN
+        uint16_t LCD_Dis_Page;   // PAGE
+        LCD_SCAN_DIR LCD_Scan_Dir;
+        uint16_t LCD_X_Adjust; // LCD x actual display position calibration
+        uint16_t LCD_Y_Adjust; // LCD y actual display position calibration
 } LCD_DIS;
 
 LCD_DIS sLCD_DIS;
@@ -302,9 +301,9 @@ static inline void lcd_set_windows(uint16_t x_start, uint16_t y_start, uint16_t 
 {
     // set the X coordinates
     lcd_send_command(0x2A);
-    lcd_send_data_8bit(0x00);                                    // Set the horizontal starting point to the high octet
+    lcd_send_data_8bit(0x00);                                     // Set the horizontal starting point to the high octet
     lcd_send_data_8bit((x_start & 0xff) + sLCD_DIS.LCD_X_Adjust); // Set the horizontal starting point to the low octet
-    lcd_send_data_8bit(0x00);                                    // Set the horizontal end to the high octet
+    lcd_send_data_8bit(0x00);                                     // Set the horizontal end to the high octet
     lcd_send_data_8bit(((x_end - 1) & 0xff) + sLCD_DIS.LCD_X_Adjust); // Set the horizontal end to the low octet
 
     // set the Y coordinates
@@ -315,7 +314,6 @@ static inline void lcd_set_windows(uint16_t x_start, uint16_t y_start, uint16_t 
     lcd_send_data_8bit(((y_end - 1) & 0xff) + sLCD_DIS.LCD_Y_Adjust);
 
     lcd_send_command(0x2C);
-
 }
 
 static inline void lcd_display(uint16_t *image)
@@ -324,11 +322,12 @@ static inline void lcd_display(uint16_t *image)
     digital_write(LCD_DC, 1);
     for (uint16_t j = 0; j < LCD_HEIGHT; ++j)
     {
-        spi_write_nbytes((uint8_t *) (image + j * LCD_WIDTH), LCD_WIDTH * 2);
+        spi_write_nbytes((uint8_t *)(image + j * LCD_WIDTH), LCD_WIDTH * 2);
     }
 }
 
-static inline void lcd_display_windows(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end, uint16_t *image)
+static inline void lcd_display_windows(uint16_t x_start, uint16_t y_start, uint16_t x_end, uint16_t y_end,
+                                       uint16_t *image)
 {
     uint16_t addr = 0;
 
@@ -336,7 +335,7 @@ static inline void lcd_display_windows(uint16_t x_start, uint16_t y_start, uint1
     for (uint16_t j = y_start; j < y_end - 1; ++j)
     {
         addr = x_start + j * LCD_WIDTH;
-        spi_write_nbytes((uint8_t *) (image + addr), (x_end - x_start - 1) * 2);
+        spi_write_nbytes((uint8_t *)(image + addr), (x_end - x_start - 1) * 2);
     }
 }
 
@@ -348,7 +347,7 @@ static inline void lcd_display_point(uint16_t x, uint16_t y, uint16_t color)
 
 static inline void lcd_clear(uint16_t color)
 {
-    uint16_t image [LCD_WIDTH * LCD_HEIGHT];
+    uint16_t image[LCD_WIDTH * LCD_HEIGHT];
     color = ((color << 8) & 0xff00) | (color >> 8);
     for (uint16_t j = 0; j < LCD_WIDTH * LCD_HEIGHT; ++j)
     {
