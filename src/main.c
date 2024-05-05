@@ -29,27 +29,26 @@ int main(void)
 
     lcd_clear(BLACK);
 
+    const uint16_t x_offset = 0;
+    const uint16_t y_offset = 0;
+    uint16_t frame_number = 0;
     while (1)
     {
-        if (digital_read(KEY1_PIN) == 0)
+        image_clear(image, BLACK);
+
+        for (uint16_t i = 0; i < FRAME_WIDTH; ++i)
         {
-            while (digital_read(KEY1_PIN) == 0)
+            for (uint16_t j = 0; j < FRAME_HEIGHT; ++j)
             {
+                image[(i + x_offset) + (j + y_offset) * LCD_WIDTH] =
+                    (frames[frame_number][(i + j * FRAME_HEIGHT) / 8] >> ((i + j * FRAME_HEIGHT) % 8)) & 0b1 ? WHITE
+                                                                                                             : BLACK;
             }
-            ++val;
-        }
-        else if (digital_read(KEY2_PIN) == 0)
-        {
-            while (digital_read(KEY2_PIN) == 0)
-            {
-            }
-            --val;
         }
 
-        image_clear(image, BLACK);
-        image_draw_number(image, LCD_WIDTH / 4, LCD_HEIGHT / 2, val, WHITE, &font16);
+        frame_number %= FRAME_COUNT;
         lcd_display(image);
-        delay(32);
+        delay(10);
     }
 
     lcd_deinit();
