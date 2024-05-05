@@ -1,12 +1,14 @@
-#include "cc-socket-wrappers/udp.hh"
+#include "cc-socket-wrappers/tcp.hh"
 #include "lcd.h"
 
 #include <signal.h>
 
 uint16_t image[LCD_WIDTH * LCD_HEIGHT] = {BLACK};
+jj::TCP* server;
 
 void exit_handler(int errorno)
 {
+    delete server;
     digital_write(LCD_BL, 0);
     lcd_deinit();
     gpio_deinit();
@@ -16,16 +18,17 @@ void exit_handler(int errorno)
 int main(void)
 {
     signal(SIGINT, exit_handler);
-    jj::UDP server{"0.0.0.0", "5000", jj::UDP::Side::SERVER};
+    server = new jj::TCP("0.0.0.0", "5000", jj::TCP::Side::SERVER);
 
     gpio_init();
     lcd_init();
 
     lcd_clear(BLACK);
+    auto accepted = server->accept_connection(1);
 
     while (1)
     {
-        server.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
+        accepted.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
         lcd_display(image);
     }
 
