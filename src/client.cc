@@ -1,6 +1,7 @@
 #include "animation.h"
 #include "cc-socket-wrappers/udp.hh"
 #include "image.h"
+#include <unistd.h>
 
 uint16_t image[LCD_WIDTH * LCD_HEIGHT] = {BLACK};
 
@@ -27,6 +28,8 @@ int main(void)
         }
 
         frame_number = (frame_number + 1) % FRAME_COUNT;
+        printf("Frame Number: %d\n", frame_number);
         client.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
+        sleep(1);
     }
 }

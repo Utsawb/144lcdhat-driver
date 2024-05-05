@@ -6,6 +6,8 @@ CC = g++
 MSG = -g -O3 -Wall
 CFLAGS += $(MSG) $(DEBUG)
 
-all:
-	$(CC) $(CFLAGS) server.cc -o server
-	g++ -g -O3 -Wall client.cc -o client
+server:
+	$(CC) $(CFLAGS) server.cc -o server $(LIB)
+
+client:
+	$(CC) $(CFLAGS) client.cc -o client $(LIB)
