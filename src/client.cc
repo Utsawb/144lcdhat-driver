@@ -13,7 +13,7 @@ int main(void)
 {
     bool flag;
     const uint16_t x_offset = 32;
-    const uint16_t y_offset = 16;
+    const uint16_t y_offset = 32;
     uint8_t frame_number = 0;
     pc_to_rpi.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint8_t));
 

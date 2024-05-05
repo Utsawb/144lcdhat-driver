@@ -22,7 +22,7 @@ int main(void)
     gpio_init();
     lcd_init();
 
-    lcd_clear(BLACK);
+    lcd_clear(CYAN);
     while (1)
     {
         pc_to_rpi.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
