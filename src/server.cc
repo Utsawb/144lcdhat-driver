@@ -26,8 +26,7 @@ int main(void)
     lcd_clear(Mantle);
     while (1)
     {
-        pc_to_rpi.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2);
-        pc_to_rpi.read(image + LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2 , LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2 - 1);
+        pc_to_rpi.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
         lcd_display(image);
         rpi_to_pc << true;
     }

@@ -15,8 +15,7 @@ int main(void)
     const uint16_t x_offset = 32;
     const uint16_t y_offset = 32;
     uint8_t frame_number = 0;
-    pc_to_rpi.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint8_t) / 2);
-    pc_to_rpi.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint8_t) / 2 - 1);
+    pc_to_rpi.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint8_t));
 
     while (1)
     {
@@ -29,10 +28,13 @@ int main(void)
                 image[(i + x_offset) + (j + y_offset) * LCD_WIDTH] =
                     (frames[frame_number][(i + j * FRAME_HEIGHT) / 8] >> ((i + j * FRAME_HEIGHT) % 8)) & 0b1 ? Mauve
                                                                                                              : Mantle;
+                if (j > 126)
+                {
+                    image[i + j * LCD_WIDTH] = Lavender;
+                }
             }
         }
-        pc_to_rpi.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2);
-        pc_to_rpi.write(image + LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2 , LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2 - 1);
+        pc_to_rpi.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
         std::this_thread::sleep_for(std::chrono::milliseconds( (int) 1000 / 30));
         frame_number = (frame_number + 1) % FRAME_COUNT;
     }
