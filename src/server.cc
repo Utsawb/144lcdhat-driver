@@ -4,7 +4,7 @@
 
 #include <signal.h>
 
-uint16_t image[LCD_WIDTH * LCD_HEIGHT] = {Lavender};
+uint16_t image[LCD_WIDTH * LCD_HEIGHT] = {Mantle};
 jj::UDP pc_to_rpi("0.0.0.0", "5000", jj::UDP::Side::SERVER);
 jj::UDP rpi_to_pc("192.168.1.3", "6000", jj::UDP::CLIENT);
 
@@ -23,10 +23,11 @@ int main(void)
     gpio_init();
     lcd_init();
 
-    lcd_clear(CYAN);
+    lcd_clear(Mantle);
     while (1)
     {
-        pc_to_rpi.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
+        pc_to_rpi.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2);
+        pc_to_rpi.read(image + LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2 , LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t) / 2 - 1);
         lcd_display(image);
         rpi_to_pc << true;
     }
