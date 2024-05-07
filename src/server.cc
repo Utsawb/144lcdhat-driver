@@ -25,6 +25,9 @@ int main(void)
     lcd_clear(Mantle);
     while (1)
     {
+        server.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
+        lcd_display(image);
+
         button_flags = 0;
         if (digital_read(KEY_UP_PIN) == 0)
         {
@@ -59,9 +62,6 @@ int main(void)
             button_flags |= 0b10000000;
         }
         server << button_flags;
-
-        server.read(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
-        lcd_display(image);
     }
 
     lcd_deinit();
