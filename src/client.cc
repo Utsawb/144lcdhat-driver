@@ -1,4 +1,5 @@
 #include <chrono>
+#include <iostream>
 #include <thread>
 
 #include <opencv2/core.hpp>
@@ -62,6 +63,7 @@ int main(void)
     client.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
     while (1)
     {
+        button_flags = 0;
         client >> button_flags;
         if (button_flags == 0)
         {
