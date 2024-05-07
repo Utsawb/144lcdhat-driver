@@ -27,7 +27,7 @@ int main(void)
             }
         }
         client.write(image, LCD_WIDTH * LCD_HEIGHT * sizeof(uint16_t));
-        std::this_thread::sleep_for(std::chrono::milliseconds( (int) 1000 / 30));
+        std::this_thread::sleep_for(std::chrono::milliseconds( (int) 1000 / 24));
         frame_number = (frame_number + 1) % FRAME_COUNT;
     }
 }
