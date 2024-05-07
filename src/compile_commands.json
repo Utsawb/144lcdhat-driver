@@ -1,32 +1,21 @@
 [
   {
-    "directory": "/home/utsawb/Work/Code/C/raspberrypi-display-lib/src",
-    "file": "font12.c",
-    "command": "gcc -g -O3 -Wall -D USE_BCM2835_LIB -I../refrence -c  font12.c -o bin/font12.o"
-  },
-  {
-    "directory": "/home/utsawb/Work/Code/C/raspberrypi-display-lib/src",
-    "file": "font16.c",
-    "command": "gcc -g -O3 -Wall -D USE_BCM2835_LIB -I../refrence -c  font16.c -o bin/font16.o"
-  },
-  {
-    "directory": "/home/utsawb/Work/Code/C/raspberrypi-display-lib/src",
-    "file": "font20.c",
-    "command": "gcc -g -O3 -Wall -D USE_BCM2835_LIB -I../refrence -c  font20.c -o bin/font20.o"
-  },
-  {
-    "directory": "/home/utsawb/Work/Code/C/raspberrypi-display-lib/src",
-    "file": "font24.c",
-    "command": "gcc -g -O3 -Wall -D USE_BCM2835_LIB -I../refrence -c  font24.c -o bin/font24.o"
-  },
-  {
-    "directory": "/home/utsawb/Work/Code/C/raspberrypi-display-lib/src",
-    "file": "font8.c",
-    "command": "gcc -g -O3 -Wall -D USE_BCM2835_LIB -I../refrence -c  font8.c -o bin/font8.o"
-  },
-  {
-    "directory": "/home/utsawb/Work/Code/C/raspberrypi-display-lib/src",
-    "file": "main.c",
-    "command": "gcc -g -O3 -Wall -D USE_BCM2835_LIB -I../refrence -c  main.c -o bin/main.o"
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-g",
+      "-O3",
+      "-Wall",
+      "-D",
+      "USE_BCM2835_LIB",
+      "-I/usr/include/opencv4",
+      "-I/usr/include/opencv4/opencv2",
+      "-o",
+      "client",
+      "client.cc"
+    ],
+    "directory": "/home/utsawb/Code/C/144lcdhat-driver/src",
+    "file": "/home/utsawb/Code/C/144lcdhat-driver/src/client.cc",
+    "output": "/home/utsawb/Code/C/144lcdhat-driver/src/client"
   }
 ]

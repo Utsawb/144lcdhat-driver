@@ -5,7 +5,7 @@
 #define LCD_HEIGHT 128
 #define LCD_WIDTH 128
 
-#define COLOR_FIX(color) ((color << 8) & 0xff00) | (color >> 8)
+#define SWAP_ENDIAN(color) ((color << 8) & 0xff00) | (color >> 8)
 
 #define Rosewater 63194
 #define Flamingo 63032

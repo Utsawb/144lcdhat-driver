@@ -14,12 +14,13 @@ static inline void image_clear(uint16_t *image, uint16_t color)
     }
 }
 
-static inline void image_draw_point(uint16_t *image, const uint16_t x, const uint16_t y, const uint16_t color)
+static inline void image_draw_point(uint16_t *image, const uint16_t x, const uint16_t y, uint16_t color)
 {
     if (x < 0 || x > LCD_WIDTH || y < 0 || y > LCD_HEIGHT)
     {
         return;
     }
+    color = ((color << 8) & 0xff00) | (color >> 8);
     image[x + y * LCD_WIDTH] = color;
 }
 
