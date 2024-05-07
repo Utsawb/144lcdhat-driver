@@ -1,5 +1,4 @@
 #include <chrono>
-#include <iostream>
 #include <thread>
 
 #include <opencv2/core.hpp>
@@ -19,17 +18,16 @@ class ScreenShot
     private:
         Display *display;
         Window root;
-        int x, y, width, height;
         XImage *img{nullptr};
 
     public:
-        ScreenShot(int x, int y, int width, int height) : x(x), y(y), width(width), height(height)
+        ScreenShot()
         {
             display = XOpenDisplay(nullptr);
             root = DefaultRootWindow(display);
         }
 
-        void operator()(cv::Mat &cvImg)
+        void operator()(cv::Mat &cvImg, int x, int y, int width, int height)
         {
             if (img != nullptr)
                 XDestroyImage(img);
@@ -45,6 +43,11 @@ class ScreenShot
         }
 };
 
+constexpr int screen_width = 1920;
+constexpr int screen_height = 1080;
+constexpr int window_width = 256;
+constexpr int window_height = 256;
+
 int main(void)
 {
     jj::UDP client("192.168.1.7", "5000", jj::UDP::CLIENT);
@@ -53,7 +56,10 @@ int main(void)
     uint8_t button_flags = 0; // U D L R P 1 2 3
     cv::namedWindow("Video", cv::WINDOW_GUI_NORMAL);
 
-    ScreenShot screen(0, 0, 1920, 1080);
+    int x = 0, y = 0;
+    int speed = 10;
+
+    ScreenShot screen;
     cv::VideoCapture capture(0);
     if (!capture.isOpened())
     {
@@ -65,14 +71,51 @@ int main(void)
     {
         button_flags = 0;
         client >> button_flags;
-        if (button_flags == 0)
+        if (button_flags & 0b1)
         {
-            screen(original_frame);
+            y = (y - speed < 0) ? 0 : y - speed;
         }
-        else
+        if (button_flags & 0b10)
+        {
+            y = (y + speed > screen_height - window_height) ? screen_height - window_height : y + speed;
+        }
+        if (button_flags & 0b100)
+        {
+            x = (x - speed < 0) ? 0 : x - speed;
+        }
+        if (button_flags & 0b1000)
+        {
+            x = (x + speed > screen_width - window_width) ? screen_width - window_width : x + speed;
+        }
+
+        if (button_flags & 0b10000)
         {
             capture.read(original_frame);
         }
+        else
+        {
+            screen(original_frame, x, y, window_width, window_height);
+        }
+
+        if (button_flags & 0b100000)
+        {
+            speed = 20;
+            x = 0;
+            y = 0;
+        }
+        else if (button_flags & 0b1000000)
+        {
+            speed = 40;
+            x = 0;
+            y = 0;
+        }
+        else if (button_flags & 0b10000000)
+        {
+            speed = 80;
+            x = 0;
+            y = 0;
+        }
+
         cv::resize(original_frame, original_frame, cv::Size(128, 128), cv::INTER_CUBIC);
         cv::cvtColor(original_frame, original_frame, cv::COLOR_BGR2RGB);
 
